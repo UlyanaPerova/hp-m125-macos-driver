@@ -3,7 +3,7 @@
  *                 ("hbpl1" in HPLIP): HP LaserJet Pro MFP M125/M126/M127/M128
  *                 and the M129-M134 family.
  *
- * Copyright (c) 2026 The m125-pclms authors
+ * Copyright (c) 2026 UlyanaPerova
  * SPDX-License-Identifier: MIT
  *
  * Written from scratch. PCLm is a public raster subset of PDF (Wi-Fi Alliance /

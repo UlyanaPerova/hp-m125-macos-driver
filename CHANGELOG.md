@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.2 — 2026-10-24
+- Copyright holder is now UlyanaPerova (MIT License unchanged).
+- The installer's license page no longer shows the copyright line twice.
+
 ## 1.0.1 — 2026-10-24
 - Renamed the installer and the Applications folder to "Printer Driver for HP M125r", which makes
   clear it is a compatible driver, not an HP product. The 1.0.0 folder is removed on upgrade.
