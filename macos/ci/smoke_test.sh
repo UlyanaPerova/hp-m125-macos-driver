@@ -45,17 +45,6 @@ python3 -I tests/verify_pclm.py "$T/a4.pclm" --raster "$T/a4.ras" --json > "$LOG
 check "3 pages in output" sh -c "test \$(grep -c 'PCLmS-Job-Ticket-End' '$T/a4.pclm') -eq 3"
 head -c 4000 "$T/a4.pclm" | LC_ALL=C tr -c '[:print:]\n' '.' > "$LOGS/a4-header-sample.txt"
 
-# 3. full chain the way printing uses it (cupsfilter picks our filter from the PPD)
-check "full chain PDF -> PCLm-S" sh -c "cupsfilter -p '$PPD' -m printer/foo '$LOGS/test-a4.pdf' > '$T/chain.pclm' 2>'$LOGS/cupsfilter-chain.log'"
-check "full chain output valid" python3 -I tests/verify_pclm.py "$T/chain.pclm"
-for opt in "PageSize=Letter" "PageSize=A5" "PageSize=Legal" "EconoMode=True" "InputSlot=Manual" "OutputMode=Draft" "MediaType=Heavy"; do
-  check "option $opt" sh -c "cupsfilter -p '$PPD' -m printer/foo -o '$opt' '$LOGS/test-letter.pdf' > '$T/opt.pclm' 2>>'$LOGS/cupsfilter-options.log' && python3 -I tests/verify_pclm.py '$T/opt.pclm' >/dev/null"
-  grep -a -E 'media-size-name|media-type|media-source|print-quality' "$T/opt.pclm" | sed "s/^/$opt: /" >> "$LOGS/option-tickets.txt"
-done
-check "Letter -> na_letter" grep -q "PageSize=Letter: %      media-size-name: na_letter_8.5x11in" "$LOGS/option-tickets.txt"
-check "EconoMode -> draft" grep -q "EconoMode=True: %      print-quality: draft" "$LOGS/option-tickets.txt"
-check "Manual feed -> manual" grep -q "InputSlot=Manual: %      media-source: manual" "$LOGS/option-tickets.txt"
-
 # 4. through the real cupsd (sandboxed filter run) to a fake network printer on port 9100
 SINK="$LOGS/printer-received"; mkdir -p "$SINK"
 python3 -I tests/sink_server.py 9100 "$SINK" & SINK_PID=$!
@@ -75,8 +64,23 @@ check "printer received the job" test -n "$OUTF"
 if [ -n "$OUTF" ]; then
   check "cupsd output valid (6 pages: 3 x 2 copies)" sh -c "python3 -I tests/verify_pclm.py '$OUTF' && test \$(grep -ac 'PCLmS-Job-Ticket-End' '$OUTF') -eq 6"
 fi
+# 4a. every print option through the real print system: check the job ticket the printer gets
+for opt in "PageSize=Letter" "PageSize=A5" "PageSize=Legal" "EconoMode=True" "InputSlot=Manual" "OutputMode=Draft" "MediaType=Heavy"; do
+  rm -f "$SINK"/job-*.pclm
+  lp -d CI_M125 -o "$opt" "$LOGS/test-letter.pdf" > /dev/null 2>>"$LOGS/lp-options.log"
+  wait_queue; J=$(latest_job)
+  check "option $opt (real queue)" sh -c "test -n '$J' && python3 -I tests/verify_pclm.py '$J' > /dev/null"
+  [ -n "$J" ] && grep -a -E 'media-size-name|media-type|media-source|print-quality' "$J" | sed "s/^/$opt: /" >> "$LOGS/option-tickets.txt"
+done
+check "Letter -> na_letter"     grep -q "PageSize=Letter: %      media-size-name: na_letter_8.5x11in" "$LOGS/option-tickets.txt"
+check "A5 -> iso_a5"            grep -q "PageSize=A5: %      media-size-name: iso_a5_148x210mm" "$LOGS/option-tickets.txt"
+check "EconoMode -> draft"      grep -q "EconoMode=True: %      print-quality: draft" "$LOGS/option-tickets.txt"
+check "Manual feed -> manual"   grep -q "InputSlot=Manual: %      media-source: manual" "$LOGS/option-tickets.txt"
+check "Heavy paper -> heavy"    grep -q "MediaType=Heavy: %      media-type: heavy" "$LOGS/option-tickets.txt"
+
 # 4b. drag-and-drop helper (the logic behind "Print with HP M125r.app")
 PF="$BASE/print-files.sh"
+rm -f "$SINK"/job-*.pclm
 D="$LOGS/dragdrop"; mkdir -p "$D"
 cp "$LOGS/test-a4.pdf" "$D/Document.PDF"
 sips -s format png "$LOGS/test-letter.pdf" --out "$D/photo.png" >/dev/null 2>&1
@@ -101,7 +105,7 @@ fi
 for i in $(seq 1 120); do [ -z "$(lpstat -o CI_M125 2>/dev/null)" ] && break; sleep 2; done
 sudo cp /var/log/cups/error_log "$LOGS/cups-error_log-dragdrop.txt" 2>/dev/null; sudo chmod 644 "$LOGS/cups-error_log-dragdrop.txt" 2>/dev/null
 check "drag-drop jobs printed without filter errors" sh -c "! grep -E '(E|ERROR).*rastertopclms' '$LOGS/cups-error_log-dragdrop.txt'"
-check "drag-drop jobs reached the printer" test "$(ls "$SINK"/job-*.pclm | wc -l)" -ge 4
+check "drag-drop jobs reached the printer" test "$(ls "$SINK"/job-*.pclm | wc -l)" -ge 3
 for j in "$SINK"/job-*.pclm; do python3 -I tests/verify_pclm.py "$j" > /dev/null || fail "printer data valid: $(basename "$j")"; done
 
 # 4c. manual two-sided: 3-page document -> fronts p1,p3 ; backs: blank, p2 (reverse even + blank)
