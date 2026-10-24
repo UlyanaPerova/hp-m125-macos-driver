@@ -43,7 +43,7 @@ jobs:
         with:
           name: HP-M125r-Driver-macOS
           path: |
-            dist/Install HP M125r Driver.pkg
+            dist/Install Printer Driver for HP M125r.pkg
             dist/SHA256SUMS.txt
           if-no-files-found: error
 
@@ -63,7 +63,7 @@ jobs:
           path: dist
 
       - name: Install the package like a user would
-        run: sudo installer -pkg "dist/Install HP M125r Driver.pkg" -target / -verboseR
+        run: sudo installer -pkg "dist/Install Printer Driver for HP M125r.pkg" -target / -verboseR
 
       - name: Smoke tests (real macOS printing pipeline)
         env:
@@ -92,10 +92,13 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           cat > notes.md <<'EOF'
-          **For the person installing:** download **Install HP M125r Driver.pkg**, double-click it and follow the steps.
+          **For the person installing:** download **Install-Printer-Driver-for-HP-M125r.pkg**, double-click it and follow the steps.
 
           macOS will first say it cannot verify the developer, because this free driver is not notarized by Apple.
           Click **Done**, open **System Settings → Privacy & Security**, scroll down and click **Open Anyway**, then enter your password.
           EOF
-          gh release create "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --title "HP M125r Driver $GITHUB_REF_NAME" \
-            --notes-file notes.md "dist/Install HP M125r Driver.pkg" dist/SHA256SUMS.txt
+          # GitHub turns spaces in asset names into dots, so publish a dash-separated name
+          cp "dist/Install Printer Driver for HP M125r.pkg" Install-Printer-Driver-for-HP-M125r.pkg
+          shasum -a 256 Install-Printer-Driver-for-HP-M125r.pkg > SHA256SUMS.txt
+          gh release create "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --title "Printer Driver for HP M125r $GITHUB_REF_NAME" \
+            --notes-file notes.md Install-Printer-Driver-for-HP-M125r.pkg SHA256SUMS.txt

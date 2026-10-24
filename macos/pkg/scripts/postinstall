@@ -13,6 +13,9 @@ chmod 755 "$BASE" "$BASE/Filters" "$BASE/Filters/rastertopclms" "$BASE/setup-que
 chmod 644 "$PPD" "$BASE/testpage.pdf" "$BASE/duplex-split.js" "$BASE"/*.md 2>/dev/null
 chown root:wheel "$PPD"
 
+# version 1.0.0 used a different folder name
+rm -rf "/Applications/HP M125r Driver"
+
 # language of the person installing, for messages in the log
 USER_NAME=$(stat -f%Su /dev/console 2>/dev/null)
 LOCALE=$(sudo -u "$USER_NAME" defaults read -g AppleLocale 2>/dev/null)

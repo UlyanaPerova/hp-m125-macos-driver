@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- SPDX-License-Identifier: MIT -->
 <installer-gui-script minSpecVersion="2">
-    <title>HP LaserJet Pro MFP M125r Driver</title>
+    <title>Printer Driver for HP LaserJet Pro MFP M125r</title>
     <organization>org.m125-pclms</organization>
     <welcome file="welcome.html" mime-type="text/html"/>
     <readme file="readme.html" mime-type="text/html"/>

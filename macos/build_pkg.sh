@@ -1,5 +1,5 @@
 #!/bin/bash
-# Build the double-click installer "Install HP M125r Driver.pkg". Runs on macOS
+# Build the double-click installer "Install Printer Driver for HP M125r.pkg". Runs on macOS
 # (locally or on the GitHub Actions macOS runner).
 #
 # Optional, for Gatekeeper-approved packages (needs Apple Developer Program):
@@ -18,8 +18,8 @@ ROOT="$OUT/root"
 BASE="/Library/Printers/m125-pclms"
 PPD_DIR="/Library/Printers/PPDs/Contents/Resources"
 PPD_NAME="HP LaserJet Pro MFP M125r PCLmS.gz"
-APPS="/Applications/HP M125r Driver"
-PKG="$OUT/Install HP M125r Driver.pkg"
+APPS="/Applications/Printer Driver for HP M125r"
+PKG="$OUT/Install Printer Driver for HP M125r.pkg"
 SIGN="${APP_IDENTITY:--}"
 
 sign() { # sign <path>; ad-hoc unless APP_IDENTITY is set
@@ -114,6 +114,6 @@ if [ -n "${NOTARY_PROFILE:-}" ] && [ -n "${PKG_IDENTITY:-}" ]; then
 fi
 
 pkgutil --payload-files "$PKG" > "$OUT/payload-files.txt"
-( cd "$OUT" && shasum -a 256 "Install HP M125r Driver.pkg" > SHA256SUMS.txt )
+( cd "$OUT" && shasum -a 256 "Install Printer Driver for HP M125r.pkg" > SHA256SUMS.txt )
 echo "== built: $PKG ($(du -h "$PKG" | cut -f1))"
 cat "$OUT/SHA256SUMS.txt"

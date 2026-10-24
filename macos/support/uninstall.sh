@@ -14,7 +14,8 @@ for ppd in /etc/cups/ppd/*.ppd /private/etc/cups/ppd/*.ppd; do
 done
 
 rm -f "/Library/Printers/PPDs/Contents/Resources/HP LaserJet Pro MFP M125r PCLmS.gz"
-rm -rf "/Applications/HP M125r Driver"
+rm -rf "/Applications/Printer Driver for HP M125r"
+rm -rf "/Applications/HP M125r Driver"   # name used by version 1.0.0
 rm -rf "/Library/Printers/m125-pclms"
 pkgutil --forget org.m125-pclms.driver >/dev/null 2>&1
 exit 0

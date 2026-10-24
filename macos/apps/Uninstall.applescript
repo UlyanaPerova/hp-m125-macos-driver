@@ -8,7 +8,7 @@ if isRu then
 	set tCancel to "Отмена"
 	set tDone to "Драйвер удалён."
 else
-	set tTitle to "Uninstall HP M125r Driver"
+	set tTitle to "Uninstall Printer Driver for HP M125r"
 	set tAsk to "Remove the HP LaserJet Pro MFP M125r printer driver and this printer from your printer list?"
 	set tYes to "Uninstall"
 	set tCancel to "Cancel"

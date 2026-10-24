@@ -4,7 +4,7 @@
 
 By installing or using the m125-pclms printer driver ("the Software") you agree to these
 terms. If you do not agree, do not install it, or remove it with
-**Applications → HP M125r Driver → Uninstall**.
+**Applications → Printer Driver for HP M125r → Uninstall**.
 
 1. **License.** The Software is free and open-source under the MIT License (below). You may
    use, copy, modify and share it, including commercially, as long as the copyright notice

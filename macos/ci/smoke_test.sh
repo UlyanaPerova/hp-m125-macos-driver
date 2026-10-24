@@ -1,5 +1,5 @@
 #!/bin/bash
-# Runs on a GitHub macOS runner AFTER "Install HP M125r Driver.pkg" was installed.
+# Runs on a GitHub macOS runner AFTER "Install Printer Driver for HP M125r.pkg" was installed.
 # Exercises the real macOS print pipeline (cgpdftoraster -> our filter, and cupsd).
 # Usage: macos/ci/smoke_test.sh <log dir>
 # SPDX-License-Identifier: MIT
@@ -26,8 +26,8 @@ check "filter signature valid" codesign --verify --strict --verbose=2 "$FILTER"
 check "filter is universal"    sh -c "lipo -archs '$FILTER' | grep -q arm64 && lipo -archs '$FILTER' | grep -q x86_64"
 check "PPD installed"          test -f "$PPD"
 check "PPD passes cupstestppd" sh -c "gunzip -c '$PPD' > '$LOGS/installed.ppd' && cupstestppd -W none '$LOGS/installed.ppd'"
-check "apps installed"         test -d "/Applications/HP M125r Driver/Set Up Printer.app" -a -d "/Applications/HP M125r Driver/Uninstall.app"
-check "app signatures valid"   codesign --verify --deep --strict "/Applications/HP M125r Driver/Set Up Printer.app"
+check "apps installed"         test -d "/Applications/Printer Driver for HP M125r/Set Up Printer.app" -a -d "/Applications/Printer Driver for HP M125r/Uninstall.app"
+check "app signatures valid"   codesign --verify --deep --strict "/Applications/Printer Driver for HP M125r/Set Up Printer.app"
 check "legal docs installed"   test -f "$BASE/PRIVACY.md" -a -f "$BASE/TERMS.md" -a -f "$BASE/LICENSE"
 cp /Library/Logs/m125-pclms-install.log "$LOGS/" 2>/dev/null
 check "postinstall ran"        grep -q "postinstall: setup-queue exit" /Library/Logs/m125-pclms-install.log
@@ -88,8 +88,8 @@ echo "Plain text printed by drag and drop" > "$D/note.txt"
 echo "x" > "$D/archive.xyz"
 printf 'Word document test\nSecond line\n' > "$D/word.txt"; textutil -convert docx "$D/word.txt" -output "$D/report.docx"
 printf 'a,b,c\n1,2,3\n' > "$D/table.csv"
-check "app installed: Print with HP M125r" test -d "/Applications/HP M125r Driver/Print with HP M125r.app"
-check "app has Automation purpose text" sh -c "plutil -extract NSAppleEventsUsageDescription raw '/Applications/HP M125r Driver/Print with HP M125r.app/Contents/Info.plist' | grep -q PDF"
+check "app installed: Print with HP M125r" test -d "/Applications/Printer Driver for HP M125r/Print with HP M125r.app"
+check "app has Automation purpose text" sh -c "plutil -extract NSAppleEventsUsageDescription raw '/Applications/Printer Driver for HP M125r/Print with HP M125r.app/Contents/Info.plist' | grep -q PDF"
 "$PF" -q CI_M125 "$D/Document.PDF" "$D/photo.png" "$D/note.txt" > "$D/direct.txt" 2>&1; rc=$?
 check "drag-drop: PDF, PNG, text sent" sh -c "test $rc -eq 0 && test \$(grep -c '^OK' '$D/direct.txt') -eq 3"
 "$PF" -q CI_M125 -l ru "$D/archive.xyz" > "$D/unknown.txt" 2>&1; rc=$?
@@ -150,7 +150,7 @@ check "setup helper without printer says 'not found'" sh -c "test $rc -eq 2 && g
 
 # 7. uninstall removes everything
 check "uninstall" sudo "$BASE/uninstall.sh"
-check "files removed" sh -c "test ! -e '$BASE' -a ! -e '$PPD' -a ! -e '/Applications/HP M125r Driver'"
+check "files removed" sh -c "test ! -e '$BASE' -a ! -e '$PPD' -a ! -e '/Applications/Printer Driver for HP M125r'"
 check "receipt removed" sh -c "! pkgutil --pkg-info org.m125-pclms.driver"
 
 echo; cat "$LOGS/summary.txt"

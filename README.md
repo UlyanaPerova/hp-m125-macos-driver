@@ -1,12 +1,47 @@
-# m125-pclms — open driver for HP LaserJet Pro MFP M125r on macOS
+# HP LaserJet Pro MFP M125r driver for macOS (Apple Silicon, macOS 26 Tahoe)
 
-A small, fast CUPS driver (MIT license) for the **HP LaserJet Pro MFP M125r** and its
-relatives, made for Macs where HP's own driver no longer installs, such as the MacBook Neo
-running macOS 26 Tahoe on Apple Silicon.
+**Free, open-source printer driver for the HP LaserJet Pro MFP M125r, M125a, M125nw, M125ra,
+M125rnw, M126a, M126nw, M127fn, M127fw, M128fn and M128fw on a Mac.** It works on MacBook Neo,
+MacBook Air and Pro, iMac and Mac mini with Apple Silicon (A18 Pro, M1–M5) or Intel. It
+supports macOS 11 Big Sur up to **macOS 26 Tahoe**.
+
+> Not affiliated with or endorsed by HP Inc. See [Legal](#legal).
+
+### Is this your problem?
+- *"No driver for HP LaserJet Pro MFP M125 on macOS Tahoe"*, *"HP M125 not printing on Mac"*,
+  *"MacBook can't find a driver for my HP printer"*
+- macOS can't find software for the printer, or only offers *Generic PCL / Generic PostScript*
+  and then prints nothing or garbage
+- HP's support page for your model offers only "HP Easy Start", or packages that refuse to
+  install on macOS 26 or Apple Silicon
+- The printer has **no AirPrint** (the USB-only "r" and "a" models)
+
+**Fix:** download **[Install-Printer-Driver-for-HP-M125r.pkg](../../releases/latest)**,
+double-click it and follow the steps. The installer finds the USB printer and sets it up.
+Plain-language instructions: [English and Russian](docs/USER_GUIDE.md).
+
+**Проблема по-русски:** нет драйвера для **HP LaserJet Pro MFP M125r / M125ra / M125a** на Mac
+(macOS 26 Tahoe, MacBook Neo, Apple Silicon), принтер не печатает. Скачайте
+**[установщик](../../releases/latest)** и запустите его. Пошаговая инструкция: [docs/USER_GUIDE.md](docs/USER_GUIDE.md).
+
+**Status:** confirmed working on a real HP LaserJet Pro MFP M125r with a MacBook Neo (macOS 26),
+first try. Tested automatically on macOS 15 and macOS 26 on every change.
+
+### What you get
+- Printing from any app, with paper size, tray and manual feed, paper type, quality and Toner
+  Saver options
+- **Drag-and-drop printing** of PDF, photos, text and Word/Pages/Excel/Numbers/PowerPoint/Keynote
+  files
+- **Manual two-sided (duplex) printing**, with on-screen instructions for reloading the paper
+- A 300 KB installer. HP's macOS software package is about 300 MB.
+
+### How it works (for developers)
+A small, fast CUPS driver (MIT license):
 
 * One C file (`src/rastertopclms.c`, about 1,100 lines) plus one PPD file. It uses only `libcups`
   and the C library, both built into macOS, so there are no extra libraries to install.
-* The binary is about 40 KB. Converting a 600 dpi A4 page takes a few milliseconds.
+* The binary is about 40 KB. Converting a 600 dpi A4 page takes 7–15 ms. HP's Linux filter
+  takes about 60 ms.
 * Compression runs on up to 4 threads. On Apple Silicon only the performance cores are counted
   (`hw.perflevel0.logicalcpu`), and the threads ask for the `USER_INITIATED` QoS class, so macOS
   schedules them on P-cores. Set `PCLMS_THREADS=1` to use one thread.
@@ -26,11 +61,11 @@ each page.
 
 ## Install on macOS (MacBook Neo / any Apple Silicon or Intel Mac)
 
-**The easy way:** download **Install HP M125r Driver.pkg** from this repository's *Releases*
+**The easy way:** download **Install Printer Driver for HP M125r.pkg** from this repository's *Releases*
 page and double-click it. Step-by-step instructions for non-technical users (Russian and
 English) are in [`docs/USER_GUIDE.md`](docs/USER_GUIDE.md). The installer shows a welcome page,
 the privacy notice and the Terms of Use (with an Agree step), and sets up the USB printer
-itself. It also adds **Applications → HP M125r Driver → Set Up Printer / Uninstall**.
+itself. It also adds **Applications → Printer Driver for HP M125r → Set Up Printer / Uninstall**.
 
 **From source, in Terminal:**
 
@@ -90,11 +125,10 @@ sudo lpadmin -p M125r -E -v "$(lpinfo -v | awk '/usb:\/\/HP\/.*M125/ {print $2; 
   same PPD and filter, side-by-side comparison with HP's own `hpcups` 3.26.6 output for the
   M125r, plus speed and memory checks. See `docs/TEST_REPORT.md`.
 
-**Caveat:** this has not been tested on a physical M125r yet. The output was checked
-structurally and pixel by pixel against HP's driver, which is tested on real hardware, but
-the first real print is the final test. If the printer shows an error or prints nothing,
-collect `/var/log/cups/error_log` and the job file. `cupsfilter -p <ppd> file.pdf > job.pclm`
-produces one.
+**Real hardware:** confirmed working on an HP LaserJet Pro MFP M125r connected by USB to a
+MacBook Neo (macOS 26), on the first try. If printing fails on your setup, open an issue and
+attach `/Library/Logs/m125-pclms-install.log` and the lines mentioning `rastertopclms` from
+`/var/log/cups/error_log`.
 
 ## How it works
 
@@ -124,6 +158,20 @@ ticket keys appear in the same order HP uses.
 [Terms of Use](docs/TERMS.md) · [Privacy Policy](docs/PRIVACY.md) ·
 [Third-party notices](docs/THIRD_PARTY_NOTICES.md) · [Security](SECURITY.md) ·
 [Release checklist](docs/COMPLIANCE_CHECKLIST.md)
+
+- **Independent project.** It is not made, sponsored, endorsed or supported by HP Inc. HP,
+  LaserJet and related marks are trademarks of HP Inc. Apple, macOS, MacBook and AirPrint are
+  trademarks of Apple Inc. They appear here only to say which printers and computers this
+  software works with.
+- **No HP code or files.** The driver was written from scratch. HP's open-source HPLIP driver
+  (GPL) was used only as a separate program in the test machine, to compare its *output* with
+  ours. No HP source code, binaries, PPD files or firmware are included or redistributed.
+- **Interoperability.** The printer's data format (PCLm, a published Wi-Fi Alliance/Mopria
+  raster format, with HP's PCLm-S job-ticket comments) is reproduced only so the printer
+  accepts the jobs.
+- **No warranty**, as in the MIT License. The driver only sends normal print jobs. It never
+  modifies printer firmware or settings.
+- **No data collection.** No network code, analytics or telemetry.
 
 ## License
 

@@ -55,12 +55,12 @@
 *OpenUI *OutputMode/Print Quality: PickOne
 *OrderDependency: 10 AnySetup *OutputMode
 *DefaultOutputMode: FastRes600
-*OutputMode FastRes600/FastRes 600: "<</OutputType(1)>>setpagedevice"
-*OutputMode FastRes1200/FastRes 1200: "<</OutputType(2)>>setpagedevice"
+*OutputMode FastRes600/Normal (600 dpi): "<</OutputType(1)>>setpagedevice"
+*OutputMode FastRes1200/Fine (1200 dpi quality): "<</OutputType(2)>>setpagedevice"
 *OutputMode Draft/Draft: "<</OutputType(0)>>setpagedevice"
 *CloseUI: *OutputMode
 
-*OpenUI *EconoMode/EconoMode (save toner): Boolean
+*OpenUI *EconoMode/Toner Saver: Boolean
 *OrderDependency: 10 AnySetup *EconoMode
 *DefaultEconoMode: False
 *EconoMode False/Off: "<</cupsInteger2 0>>setpagedevice"

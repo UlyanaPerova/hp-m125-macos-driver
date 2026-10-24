@@ -50,7 +50,7 @@ There are none. The driver is not made by, affiliated with or endorsed by HP Inc
 printer the driver supports.
 
 ## Removing the driver
-Open **Applications → HP M125r Driver → Uninstall**. It removes the driver, its helper
+Open **Applications → Printer Driver for HP M125r → Uninstall**. It removes the driver, its helper
 apps and the printer entries that use it.
 
 ## Children

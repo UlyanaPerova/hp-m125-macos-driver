@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.1 — 2026-10-24
+- Renamed the installer and the Applications folder to "Printer Driver for HP M125r", which makes
+  clear it is a compatible driver, not an HP product. The 1.0.0 folder is removed on upgrade.
+- Plain option labels: "Normal (600 dpi)", "Fine (1200 dpi quality)", "Toner Saver".
+- Confirmed working on a real HP LaserJet Pro MFP M125r with a MacBook Neo on macOS 26.
+
 ## 1.0.0 — 2026-10-24
 - First release: PCLm-S CUPS filter `rastertopclms` for HP LaserJet Pro MFP M125r
   (and M125/M126/M127/M128).
