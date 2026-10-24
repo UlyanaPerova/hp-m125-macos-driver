@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SPDX-License-Identifier: MIT -->
+<installer-gui-script minSpecVersion="2">
+    <title>HP LaserJet Pro MFP M125r Driver</title>
+    <organization>org.m125-pclms</organization>
+    <welcome file="welcome.html" mime-type="text/html"/>
+    <readme file="readme.html" mime-type="text/html"/>
+    <license file="license.html" mime-type="text/html"/>
+    <conclusion file="conclusion.html" mime-type="text/html"/>
+    <options customize="never" require-scripts="true" rootVolumeOnly="true" hostArchitectures="arm64,x86_64"/>
+    <domains enable_anywhere="false" enable_currentUserHome="false" enable_localSystem="true"/>
+    <volume-check>
+        <allowed-os-versions>
+            <os-version min="11.0"/>
+        </allowed-os-versions>
+    </volume-check>
+    <choices-outline>
+        <line choice="default">
+            <line choice="org.m125-pclms.driver"/>
+        </line>
+    </choices-outline>
+    <choice id="default"/>
+    <choice id="org.m125-pclms.driver" visible="false">
+        <pkg-ref id="org.m125-pclms.driver"/>
+    </choice>
+    <pkg-ref id="org.m125-pclms.driver" version="@VERSION@" onConclusion="none">m125-pclms-component.pkg</pkg-ref>
+</installer-gui-script>

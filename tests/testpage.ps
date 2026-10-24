@@ -1,0 +1,25 @@
+%!PS-Adobe-3.0
+%%Title: m125-pclms test page
+%%Pages: 2
+%%Page: 1 1
+/Helvetica-Bold findfont 28 scalefont setfont
+50 760 moveto (m125-pclms test page 1) show
+/Helvetica findfont 12 scalefont setfont
+50 735 moveto (HP LaserJet Pro MFP M125r - PCLm-S open driver - MIT) show
+% gray gradient bar
+0 1 255 { /i exch def i 255 div setgray 50 i 2 mul add 600 2 60 rectfill } for
+% frame at the printable edge (14pt margins)
+0 setgray 0.5 setlinewidth 15 15 565 812 rectstroke
+% fine lines
+0 1 40 { /i exch def 50 i 6 mul add 300 moveto 50 i 6 mul add 550 lineto stroke } for
+% circles
+1 1 20 { /r exch def 420 420 r 6 mul 0 360 arc stroke } for
+/Times-Roman findfont 10 scalefont setfont
+0 1 15 { /i exch def 50 250 i 12 mul sub moveto (The quick brown fox jumps over the lazy dog 0123456789) show } for
+showpage
+%%Page: 2 2
+/Helvetica-Bold findfont 40 scalefont setfont
+100 400 moveto (Page 2) show
+0 0 moveto 595 842 lineto stroke
+showpage
+%%EOF

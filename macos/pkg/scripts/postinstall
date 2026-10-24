@@ -1,0 +1,23 @@
+#!/bin/bash
+# Runs as root after the files are copied. Never fails the install: the driver is
+# usable even if the printer is not connected yet ("Set Up Printer" app can finish later).
+# SPDX-License-Identifier: MIT
+LOG="/Library/Logs/m125-pclms-install.log"
+BASE="/Library/Printers/m125-pclms"
+PPD="/Library/Printers/PPDs/Contents/Resources/HP LaserJet Pro MFP M125r PCLmS.gz"
+echo "$(date '+%F %T') postinstall: macOS $(sw_vers -productVersion) $(uname -m)" >> "$LOG"
+
+# cupsd only runs filters that are owned by root and not writable by others
+chown -R root:wheel "$BASE"
+chmod 755 "$BASE" "$BASE/Filters" "$BASE/Filters/rastertopclms" "$BASE/setup-queue.sh" "$BASE/uninstall.sh" "$BASE/print-files.sh"
+chmod 644 "$PPD" "$BASE/testpage.pdf" "$BASE/duplex-split.js" "$BASE"/*.md 2>/dev/null
+chown root:wheel "$PPD"
+
+# language of the person installing, for messages in the log
+USER_NAME=$(stat -f%Su /dev/console 2>/dev/null)
+LOCALE=$(sudo -u "$USER_NAME" defaults read -g AppleLocale 2>/dev/null)
+case "$LOCALE" in ru*) L=ru ;; *) L=en ;; esac
+
+"$BASE/setup-queue.sh" "$L" >> "$LOG" 2>&1
+echo "$(date '+%F %T') postinstall: setup-queue exit $?" >> "$LOG"
+exit 0

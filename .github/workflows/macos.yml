@@ -1,0 +1,101 @@
+# Builds the macOS installer on a GitHub-hosted Mac, installs it on clean macOS 15 and
+# macOS 26 machines, and runs the print pipeline tests there. On a tag like v1.0.0 it
+# also publishes the installer as a GitHub Release.
+# SPDX-License-Identifier: MIT
+name: macOS installer
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: macos-15            # Apple Silicon runner
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Toolchain
+        run: sw_vers && uname -m && xcodebuild -version && clang --version | head -1
+
+      - name: Version
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then V="${GITHUB_REF_NAME#v}"; else V="1.0.0"; fi
+          echo "VERSION=$V" >> "$GITHUB_ENV"
+
+      - name: Build installer
+        run: ./macos/build_pkg.sh
+
+      - name: Inspect
+        run: |
+          lipo -info rastertopclms
+          codesign -dv --verbose=2 rastertopclms 2>&1
+          otool -L rastertopclms
+          ls -la rastertopclms
+          cat dist/payload-files.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: HP-M125r-Driver-macOS
+          path: |
+            dist/Install HP M125r Driver.pkg
+            dist/SHA256SUMS.txt
+          if-no-files-found: error
+
+  test:
+    needs: build
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-15, macos-26]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: HP-M125r-Driver-macOS
+          path: dist
+
+      - name: Install the package like a user would
+        run: sudo installer -pkg "dist/Install HP M125r Driver.pkg" -target / -verboseR
+
+      - name: Smoke tests (real macOS printing pipeline)
+        env:
+          INSTALL_LIBREOFFICE: ${{ matrix.os == 'macos-15' && '1' || '0' }}
+        run: ./macos/ci/smoke_test.sh ci-logs
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-logs-${{ matrix.os }}
+          path: ci-logs
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [build, test]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: HP-M125r-Driver-macOS
+          path: dist
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cat > notes.md <<'EOF'
+          **For the person installing:** download **Install HP M125r Driver.pkg**, double-click it and follow the steps.
+
+          macOS will first say it cannot verify the developer, because this free driver is not notarized by Apple.
+          Click **Done**, open **System Settings → Privacy & Security**, scroll down and click **Open Anyway**, then enter your password.
+          EOF
+          gh release create "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --title "HP M125r Driver $GITHUB_REF_NAME" \
+            --notes-file notes.md "dist/Install HP M125r Driver.pkg" dist/SHA256SUMS.txt

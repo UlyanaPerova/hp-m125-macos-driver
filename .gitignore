@@ -1,0 +1,9 @@
+/rastertopclms
+/build/
+/dist/
+/ppd/*.installed.ppd
+__pycache__/
+*.pclm
+*.ras
+*.pgm
+.DS_Store

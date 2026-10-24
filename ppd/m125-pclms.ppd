@@ -1,0 +1,228 @@
+*PPD-Adobe: "4.3"
+*% HP LaserJet Pro MFP M125r - open PCLm-S driver (m125-pclms)
+*% Copyright (c) 2026 The m125-pclms authors
+*% SPDX-License-Identifier: MIT
+*FormatVersion: "4.3"
+*FileVersion: "1.0.0"
+*LanguageVersion: English
+*LanguageEncoding: ISOLatin1
+*PCFileName: "M125PCLM.PPD"
+*Manufacturer: "HP"
+*Product: "(HP LaserJet Pro MFP M125r)"
+*Product: "(HP LaserJet Pro MFP M125ra)"
+*Product: "(HP LaserJet Pro MFP M125a)"
+*Product: "(HP LaserJet Pro MFP M125s)"
+*Product: "(HP LaserJet Pro MFP M125nw)"
+*Product: "(HP LaserJet Pro MFP M125rnw)"
+*Product: "(HP LaserJet Pro MFP M125nr)"
+*Product: "(HP LaserJet Pro MFP M126a)"
+*Product: "(HP LaserJet Pro MFP M126nw)"
+*Product: "(HP LaserJet Pro MFP M127fn)"
+*Product: "(HP LaserJet Pro MFP M127fw)"
+*Product: "(HP LaserJet Pro MFP M128fn)"
+*Product: "(HP LaserJet Pro MFP M128fw)"
+*ModelName: "HP LaserJet Pro MFP M125r"
+*ShortNickName: "HP LaserJet Pro MFP M125r PCLmS"
+*NickName: "HP LaserJet Pro MFP M125r, m125-pclms 1.0 (open driver)"
+*1284DeviceID: "MFG:Hewlett-Packard;MDL:HP LaserJet Pro MFP M125r;CMD:PCLmS;"
+*PSVersion: "(3010.000) 0"
+*LanguageLevel: "3"
+*ColorDevice: False
+*DefaultColorSpace: Gray
+*FileSystem: False
+*Throughput: "20"
+*LandscapeOrientation: Plus90
+*TTRasterizer: Type42
+*cupsVersion: 2.2
+*cupsModelNumber: 125
+*cupsManualCopies: True
+*cupsFilter: "application/vnd.cups-raster 0 @FILTER@"
+*cupsLanguages: "en"
+
+*% 8-bit gray raster at 600 dpi (gray input avoids RGB->gray work)
+*OpenUI *ColorModel/Output Mode: PickOne
+*OrderDependency: 10 AnySetup *ColorModel
+*DefaultColorModel: Gray
+*ColorModel Gray/Grayscale: "<</cupsColorSpace 0/cupsBitsPerColor 8/cupsColorOrder 0/cupsCompression 0>>setpagedevice"
+*CloseUI: *ColorModel
+
+*OpenUI *Resolution/Resolution: PickOne
+*OrderDependency: 10 AnySetup *Resolution
+*DefaultResolution: 600dpi
+*Resolution 600dpi/600 dpi: "<</HWResolution[600 600]>>setpagedevice"
+*CloseUI: *Resolution
+
+*OpenUI *OutputMode/Print Quality: PickOne
+*OrderDependency: 10 AnySetup *OutputMode
+*DefaultOutputMode: FastRes600
+*OutputMode FastRes600/FastRes 600: "<</OutputType(1)>>setpagedevice"
+*OutputMode FastRes1200/FastRes 1200: "<</OutputType(2)>>setpagedevice"
+*OutputMode Draft/Draft: "<</OutputType(0)>>setpagedevice"
+*CloseUI: *OutputMode
+
+*OpenUI *EconoMode/EconoMode (save toner): Boolean
+*OrderDependency: 10 AnySetup *EconoMode
+*DefaultEconoMode: False
+*EconoMode False/Off: "<</cupsInteger2 0>>setpagedevice"
+*EconoMode True/On: "<</cupsInteger2 1>>setpagedevice"
+*CloseUI: *EconoMode
+
+*OpenUI *MediaType/Media Type: PickOne
+*OrderDependency: 10 AnySetup *MediaType
+*DefaultMediaType: Plain
+*MediaType Plain/Plain Paper: "<</MediaType(Stationery)>>setpagedevice"
+*MediaType Light/Light 60-74g: "<</MediaType(light)>>setpagedevice"
+*MediaType Mid-Weight/Mid-Weight 96-110g: "<</MediaType(midweight)>>setpagedevice"
+*MediaType Heavy/Heavy 111-130g: "<</MediaType(heavy)>>setpagedevice"
+*MediaType ExtraHeavy/Extra Heavy 131-163g: "<</MediaType(extraHeavy)>>setpagedevice"
+*MediaType Transparency/Monochrome Laser Transparency: "<</MediaType(transparencyMonoLaser)>>setpagedevice"
+*MediaType Labels/Labels: "<</MediaType(labels)>>setpagedevice"
+*MediaType Letterhead/Letterhead: "<</MediaType(stationery-letterhead)>>setpagedevice"
+*MediaType Envelope/Envelope: "<</MediaType(envelope)>>setpagedevice"
+*MediaType Preprinted/Preprinted: "<</MediaType(stationery-preprinted)>>setpagedevice"
+*MediaType Prepunched/Prepunched: "<</MediaType(stationery-prepunched)>>setpagedevice"
+*MediaType Colored/Colored: "<</MediaType(color)>>setpagedevice"
+*MediaType Bond/Bond: "<</MediaType(bond)>>setpagedevice"
+*MediaType Recycled/Recycled: "<</MediaType(recycled)>>setpagedevice"
+*MediaType Rough/Rough: "<</MediaType(rough)>>setpagedevice"
+*CloseUI: *MediaType
+
+*OpenUI *InputSlot/Media Source: PickOne
+*OrderDependency: 10 AnySetup *InputSlot
+*DefaultInputSlot: tray1
+*InputSlot tray1/Tray 1: "<</MediaPosition 19>>setpagedevice"
+*InputSlot Manual/Manual Feed: "<</MediaPosition 12>>setpagedevice"
+*CloseUI: *InputSlot
+
+*HWMargins: 14 14 14 14
+*MaxMediaWidth: "612"
+*MaxMediaHeight: "1008"
+*CustomPageSize True: "pop pop pop <</PageSize[5 -2 roll]/ImagingBBox null>>setpagedevice"
+*ParamCustomPageSize Width: 1 points 216 612
+*ParamCustomPageSize Height: 2 points 360 1008
+*ParamCustomPageSize WidthOffset: 3 points 0 0
+*ParamCustomPageSize HeightOffset: 4 points 0 0
+*ParamCustomPageSize Orientation: 5 int 0 0
+
+*% === BEGIN generated page sizes (tools/gen_ppd_sizes.py) ===
+*OpenUI *PageSize/Media Size: PickOne
+*OrderDependency: 10 AnySetup *PageSize
+*DefaultPageSize: A4
+*PageSize Letter/Letter 8.5x11in: "<</cupsString0(na_letter_8.5x11in)/PageSize[612 792]/ImagingBBox null>>setpagedevice"
+*PageSize A4/A4 210x297mm: "<</cupsString0(iso_a4_210x297mm)/PageSize[595.28 841.89]/ImagingBBox null>>setpagedevice"
+*PageSize Legal/Legal 8.5x14in: "<</cupsString0(na_legal_8.5x14in)/PageSize[612 1008]/ImagingBBox null>>setpagedevice"
+*PageSize Executive/Executive 7.25x10.5in: "<</cupsString0(na_executive_7.25x10.5in)/PageSize[522 756]/ImagingBBox null>>setpagedevice"
+*PageSize Statement/Statement 5.5x8.5in: "<</cupsString0(na_invoice_5.5x8.5in)/PageSize[396 612]/ImagingBBox null>>setpagedevice"
+*PageSize FanFoldGermanLegal/Oficio 8.5x13in: "<</cupsString0(na_foolscap_8.5x13in)/PageSize[612 936]/ImagingBBox null>>setpagedevice"
+*PageSize Oficio/Oficio 8.5x13.4in: "<</cupsString0(na_oficio_8.5x13.4in)/PageSize[612 964.8]/ImagingBBox null>>setpagedevice"
+*PageSize A5/A5 148x210mm: "<</cupsString0(iso_a5_148x210mm)/PageSize[419.53 595.28]/ImagingBBox null>>setpagedevice"
+*PageSize A6/A6 105x148mm: "<</cupsString0(iso_a6_105x148mm)/PageSize[297.64 419.53]/ImagingBBox null>>setpagedevice"
+*PageSize B5/JIS B5 182x257mm: "<</cupsString0(jis_b5_182x257mm)/PageSize[515.91 728.5]/ImagingBBox null>>setpagedevice"
+*PageSize B6/JIS B6 128x182mm: "<</cupsString0(jis_b6_128x182mm)/PageSize[362.83 515.91]/ImagingBBox null>>setpagedevice"
+*PageSize 195x270mm/16K 195x270mm: "<</cupsString0(om_16k_195x270mm)/PageSize[552.76 765.35]/ImagingBBox null>>setpagedevice"
+*PageSize 184x260mm/16K 184x260mm: "<</cupsString0(om_16k_184x260mm)/PageSize[521.57 737.01]/ImagingBBox null>>setpagedevice"
+*PageSize roc16k/16K 7.75x10.75in: "<</cupsString0(roc_16k_7.75x10.75in)/PageSize[558 774]/ImagingBBox null>>setpagedevice"
+*PageSize Postcard/Postcard 100x148mm: "<</cupsString0(jpn_hagaki_100x148mm)/PageSize[283.46 419.53]/ImagingBBox null>>setpagedevice"
+*PageSize DoublePostcardRotated/Double Postcard 148x200mm: "<</cupsString0(jpn_oufuku_148x200mm)/PageSize[419.53 566.93]/ImagingBBox null>>setpagedevice"
+*PageSize 4x6/Index card 4x6in: "<</cupsString0(na_index-4x6_4x6in)/PageSize[288 432]/ImagingBBox null>>setpagedevice"
+*PageSize 5x7/Photo 5x7in: "<</cupsString0(na_5x7_5x7in)/PageSize[360 504]/ImagingBBox null>>setpagedevice"
+*PageSize 100x150mm/Photo 10x15cm: "<</cupsString0(om_small-photo_100x150mm)/PageSize[283.46 425.2]/ImagingBBox null>>setpagedevice"
+*PageSize EnvMonarch/Envelope Monarch: "<</cupsString0(na_monarch_3.875x7.5in)/PageSize[279 540]/ImagingBBox null>>setpagedevice"
+*PageSize Env10/Envelope #10: "<</cupsString0(na_number-10_4.125x9.5in)/PageSize[297 684]/ImagingBBox null>>setpagedevice"
+*PageSize EnvDL/Envelope DL: "<</cupsString0(iso_dl_110x220mm)/PageSize[311.81 623.62]/ImagingBBox null>>setpagedevice"
+*PageSize EnvC5/Envelope C5: "<</cupsString0(iso_c5_162x229mm)/PageSize[459.21 649.13]/ImagingBBox null>>setpagedevice"
+*PageSize EnvC6/Envelope C6: "<</cupsString0(iso_c6_114x162mm)/PageSize[323.15 459.21]/ImagingBBox null>>setpagedevice"
+*PageSize EnvISOB5/Envelope B5: "<</cupsString0(iso_b5_176x250mm)/PageSize[498.9 708.66]/ImagingBBox null>>setpagedevice"
+*PageSize EnvChou3/Envelope Chou #3: "<</cupsString0(jpn_chou3_120x235mm)/PageSize[340.16 666.14]/ImagingBBox null>>setpagedevice"
+*CloseUI: *PageSize
+
+*OpenUI *PageRegion/Media Size: PickOne
+*OrderDependency: 10 AnySetup *PageRegion
+*DefaultPageRegion: A4
+*PageRegion Letter/Letter 8.5x11in: "<</cupsString0(na_letter_8.5x11in)/PageSize[612 792]/ImagingBBox null>>setpagedevice"
+*PageRegion A4/A4 210x297mm: "<</cupsString0(iso_a4_210x297mm)/PageSize[595.28 841.89]/ImagingBBox null>>setpagedevice"
+*PageRegion Legal/Legal 8.5x14in: "<</cupsString0(na_legal_8.5x14in)/PageSize[612 1008]/ImagingBBox null>>setpagedevice"
+*PageRegion Executive/Executive 7.25x10.5in: "<</cupsString0(na_executive_7.25x10.5in)/PageSize[522 756]/ImagingBBox null>>setpagedevice"
+*PageRegion Statement/Statement 5.5x8.5in: "<</cupsString0(na_invoice_5.5x8.5in)/PageSize[396 612]/ImagingBBox null>>setpagedevice"
+*PageRegion FanFoldGermanLegal/Oficio 8.5x13in: "<</cupsString0(na_foolscap_8.5x13in)/PageSize[612 936]/ImagingBBox null>>setpagedevice"
+*PageRegion Oficio/Oficio 8.5x13.4in: "<</cupsString0(na_oficio_8.5x13.4in)/PageSize[612 964.8]/ImagingBBox null>>setpagedevice"
+*PageRegion A5/A5 148x210mm: "<</cupsString0(iso_a5_148x210mm)/PageSize[419.53 595.28]/ImagingBBox null>>setpagedevice"
+*PageRegion A6/A6 105x148mm: "<</cupsString0(iso_a6_105x148mm)/PageSize[297.64 419.53]/ImagingBBox null>>setpagedevice"
+*PageRegion B5/JIS B5 182x257mm: "<</cupsString0(jis_b5_182x257mm)/PageSize[515.91 728.5]/ImagingBBox null>>setpagedevice"
+*PageRegion B6/JIS B6 128x182mm: "<</cupsString0(jis_b6_128x182mm)/PageSize[362.83 515.91]/ImagingBBox null>>setpagedevice"
+*PageRegion 195x270mm/16K 195x270mm: "<</cupsString0(om_16k_195x270mm)/PageSize[552.76 765.35]/ImagingBBox null>>setpagedevice"
+*PageRegion 184x260mm/16K 184x260mm: "<</cupsString0(om_16k_184x260mm)/PageSize[521.57 737.01]/ImagingBBox null>>setpagedevice"
+*PageRegion roc16k/16K 7.75x10.75in: "<</cupsString0(roc_16k_7.75x10.75in)/PageSize[558 774]/ImagingBBox null>>setpagedevice"
+*PageRegion Postcard/Postcard 100x148mm: "<</cupsString0(jpn_hagaki_100x148mm)/PageSize[283.46 419.53]/ImagingBBox null>>setpagedevice"
+*PageRegion DoublePostcardRotated/Double Postcard 148x200mm: "<</cupsString0(jpn_oufuku_148x200mm)/PageSize[419.53 566.93]/ImagingBBox null>>setpagedevice"
+*PageRegion 4x6/Index card 4x6in: "<</cupsString0(na_index-4x6_4x6in)/PageSize[288 432]/ImagingBBox null>>setpagedevice"
+*PageRegion 5x7/Photo 5x7in: "<</cupsString0(na_5x7_5x7in)/PageSize[360 504]/ImagingBBox null>>setpagedevice"
+*PageRegion 100x150mm/Photo 10x15cm: "<</cupsString0(om_small-photo_100x150mm)/PageSize[283.46 425.2]/ImagingBBox null>>setpagedevice"
+*PageRegion EnvMonarch/Envelope Monarch: "<</cupsString0(na_monarch_3.875x7.5in)/PageSize[279 540]/ImagingBBox null>>setpagedevice"
+*PageRegion Env10/Envelope #10: "<</cupsString0(na_number-10_4.125x9.5in)/PageSize[297 684]/ImagingBBox null>>setpagedevice"
+*PageRegion EnvDL/Envelope DL: "<</cupsString0(iso_dl_110x220mm)/PageSize[311.81 623.62]/ImagingBBox null>>setpagedevice"
+*PageRegion EnvC5/Envelope C5: "<</cupsString0(iso_c5_162x229mm)/PageSize[459.21 649.13]/ImagingBBox null>>setpagedevice"
+*PageRegion EnvC6/Envelope C6: "<</cupsString0(iso_c6_114x162mm)/PageSize[323.15 459.21]/ImagingBBox null>>setpagedevice"
+*PageRegion EnvISOB5/Envelope B5: "<</cupsString0(iso_b5_176x250mm)/PageSize[498.9 708.66]/ImagingBBox null>>setpagedevice"
+*PageRegion EnvChou3/Envelope Chou #3: "<</cupsString0(jpn_chou3_120x235mm)/PageSize[340.16 666.14]/ImagingBBox null>>setpagedevice"
+*CloseUI: *PageRegion
+
+*DefaultImageableArea: A4
+*ImageableArea Letter/Letter 8.5x11in: "14 14 598 778"
+*ImageableArea A4/A4 210x297mm: "14 14 581.28 827.89"
+*ImageableArea Legal/Legal 8.5x14in: "14 14 598 994"
+*ImageableArea Executive/Executive 7.25x10.5in: "14 14 508 742"
+*ImageableArea Statement/Statement 5.5x8.5in: "14 14 382 598"
+*ImageableArea FanFoldGermanLegal/Oficio 8.5x13in: "14 14 598 922"
+*ImageableArea Oficio/Oficio 8.5x13.4in: "14 14 598 950.8"
+*ImageableArea A5/A5 148x210mm: "14 14 405.53 581.28"
+*ImageableArea A6/A6 105x148mm: "14 14 283.64 405.53"
+*ImageableArea B5/JIS B5 182x257mm: "14 14 501.91 714.5"
+*ImageableArea B6/JIS B6 128x182mm: "14 14 348.83 501.91"
+*ImageableArea 195x270mm/16K 195x270mm: "14 14 538.76 751.35"
+*ImageableArea 184x260mm/16K 184x260mm: "14 14 507.57 723.01"
+*ImageableArea roc16k/16K 7.75x10.75in: "14 14 544 760"
+*ImageableArea Postcard/Postcard 100x148mm: "14 14 269.46 405.53"
+*ImageableArea DoublePostcardRotated/Double Postcard 148x200mm: "14 14 405.53 552.93"
+*ImageableArea 4x6/Index card 4x6in: "14 14 274 418"
+*ImageableArea 5x7/Photo 5x7in: "14 14 346 490"
+*ImageableArea 100x150mm/Photo 10x15cm: "14 14 269.46 411.2"
+*ImageableArea EnvMonarch/Envelope Monarch: "14 14 265 526"
+*ImageableArea Env10/Envelope #10: "14 14 283 670"
+*ImageableArea EnvDL/Envelope DL: "14 14 297.81 609.62"
+*ImageableArea EnvC5/Envelope C5: "14 14 445.21 635.13"
+*ImageableArea EnvC6/Envelope C6: "14 14 309.15 445.21"
+*ImageableArea EnvISOB5/Envelope B5: "14 14 484.9 694.66"
+*ImageableArea EnvChou3/Envelope Chou #3: "14 14 326.16 652.14"
+
+*DefaultPaperDimension: A4
+*PaperDimension Letter/Letter 8.5x11in: "612 792"
+*PaperDimension A4/A4 210x297mm: "595.28 841.89"
+*PaperDimension Legal/Legal 8.5x14in: "612 1008"
+*PaperDimension Executive/Executive 7.25x10.5in: "522 756"
+*PaperDimension Statement/Statement 5.5x8.5in: "396 612"
+*PaperDimension FanFoldGermanLegal/Oficio 8.5x13in: "612 936"
+*PaperDimension Oficio/Oficio 8.5x13.4in: "612 964.8"
+*PaperDimension A5/A5 148x210mm: "419.53 595.28"
+*PaperDimension A6/A6 105x148mm: "297.64 419.53"
+*PaperDimension B5/JIS B5 182x257mm: "515.91 728.5"
+*PaperDimension B6/JIS B6 128x182mm: "362.83 515.91"
+*PaperDimension 195x270mm/16K 195x270mm: "552.76 765.35"
+*PaperDimension 184x260mm/16K 184x260mm: "521.57 737.01"
+*PaperDimension roc16k/16K 7.75x10.75in: "558 774"
+*PaperDimension Postcard/Postcard 100x148mm: "283.46 419.53"
+*PaperDimension DoublePostcardRotated/Double Postcard 148x200mm: "419.53 566.93"
+*PaperDimension 4x6/Index card 4x6in: "288 432"
+*PaperDimension 5x7/Photo 5x7in: "360 504"
+*PaperDimension 100x150mm/Photo 10x15cm: "283.46 425.2"
+*PaperDimension EnvMonarch/Envelope Monarch: "279 540"
+*PaperDimension Env10/Envelope #10: "297 684"
+*PaperDimension EnvDL/Envelope DL: "311.81 623.62"
+*PaperDimension EnvC5/Envelope C5: "459.21 649.13"
+*PaperDimension EnvC6/Envelope C6: "323.15 459.21"
+*PaperDimension EnvISOB5/Envelope B5: "498.9 708.66"
+*PaperDimension EnvChou3/Envelope Chou #3: "340.16 666.14"
+*% === END generated page sizes ===
+
+*DefaultFont: Courier
+*% End of PPD
