@@ -18,7 +18,7 @@ jobs:
   build:
     runs-on: macos-15            # Apple Silicon runner
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Toolchain
         run: sw_vers && uname -m && xcodebuild -version && clang --version | head -1
@@ -39,7 +39,7 @@ jobs:
           ls -la rastertopclms
           cat dist/payload-files.txt
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: HP-M125r-Driver-macOS
           path: |
@@ -55,9 +55,9 @@ jobs:
         os: [macos-15, macos-26]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v5
         with:
           name: HP-M125r-Driver-macOS
           path: dist
@@ -70,7 +70,7 @@ jobs:
           INSTALL_LIBREOFFICE: ${{ matrix.os == 'macos-15' && '1' || '0' }}
         run: ./macos/ci/smoke_test.sh ci-logs
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         if: always()
         with:
           name: test-logs-${{ matrix.os }}
@@ -83,7 +83,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v5
         with:
           name: HP-M125r-Driver-macOS
           path: dist
